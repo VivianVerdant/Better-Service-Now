@@ -1,0 +1,62 @@
+<html>
+	<head>
+		<script src="./codemirror/codemirror.min.js"></script>
+		<script src="./codemirror/sublime.js"></script>
+		<link rel="stylesheet" href="./codemirror/codemirror.min.css" />
+		<link rel="stylesheet" href="./codemirror/theme/lesser-dark.css" />
+		<style>
+			.CodeMirror,
+			textarea {
+				width: 600px;
+				height: 50%;
+			}
+            /*
+			.CodeMirror-line::after {
+				content: "";
+                display: block;
+				width: 100%;
+				height: 1px;
+				background: #888;
+				top: 100%;
+				left: 0;
+			}
+            */
+
+			.CodeMirror pre.CodeMirror-line {
+				padding-bottom: 2px;
+			}
+
+			.CodeMirror-cursor {
+				max-height: 1rem;
+			}
+		</style>
+		<script>
+			var editor;
+			function line_formatter(num) {
+				return "*";
+			}
+			function load_textarea() {
+				CodeMirror.keyMap.default["Alt-Up"] = "swapLineUp";
+				editor = CodeMirror.fromTextArea(
+					document.getElementById("editor"),
+					{
+						mode: "text",
+						lineNumbers: false,
+						gutter: false,
+						lineWrapping: true,
+						smartIndent: false,
+						keyMap: "sublime",
+						theme: "lesser-dark",
+					}
+				);
+				editor.setOption("lineNumberFormatter", (l) => {return "*";});
+				editor.save();
+			}
+		</script>
+	</head>
+	<body onload="load_textarea()">
+		<div>
+			<textarea id="editor"></textarea>
+		</div>
+	</body>
+</html>

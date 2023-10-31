@@ -1,0 +1,66 @@
+{
+	"manifest_version": 3,
+	"name": "Better Service Now",
+	"version": "0.1",
+	"description": "Try to take over the world!",
+
+	"icons": {
+		"16": "images/icon-16.png",
+		"32": "images/icon-16.png",
+		"48": "images/icon-16.png",
+		"128": "images/icon-16.png"
+	},
+	"permissions": [
+		"storage"
+	],
+	"options_ui": {
+		"page": "options/options.html",
+		"open_in_tab": true
+	},
+	"content_scripts": [
+		{
+			"matches": ["https://*.service-now.com/*"],
+			"run_at": "document_start",
+			"css": ["css/better_servicenow.css"],
+			"js": ["scripts/await_selector.js", "scripts/header_buttons.js"]
+		},
+		{
+			"matches": [
+				"https://*.service-now.com/com.glideapp.servicecatalog_cat_item_view.do*"
+			],
+			"css": ["css/better_new_incident.css"]
+		},
+		{
+			"matches": ["https://*.service-now.com/incident.do*"],
+			"run_at": "document_start",
+			"css": ["css/better_incident.css"],
+			"js": ["scripts/incident.js"]
+		},
+		{
+			"matches": ["https://*.service-now.com/kb?id=kb_search*"],
+			"css": ["css/better_kb_search.css"]
+		},
+		{
+			"matches": ["https://*.service-now.com/kb?id=kb_article_view*"],
+			"css": ["css/better_kb_view.css"]
+		},
+		{
+			"matches": ["https://*.service-now.com/kb_knowledge.do*"],
+			"css": ["css/better_kb_edit.css"]
+		},
+		{
+			"matches": ["https://*.service-now.com/$pa_dashboard.do*"],
+			"css": ["css/better_dashboard.css"]
+		},
+		{
+			"matches": ["https://*.service-now.com/catalog_home.do*"],
+			"css": ["css/better_requests.css"]
+		}
+	],
+	"web_accessible_resources": [
+		{
+			"resources": ["codemirror/*", "scripts/*"],
+			"matches": ["https://*.service-now.com/*"]
+		}
+	]
+}
