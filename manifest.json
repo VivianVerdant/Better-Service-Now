@@ -33,7 +33,7 @@
 		{
 			"matches": ["https://*.service-now.com/incident.do*"],
 			"run_at": "document_start",
-			"css": ["css/better_incident.css"],
+			"css": ["css/incident.css","css/incident_alt_layout.css"],
 			"js": ["scripts/incident.js"]
 		},
 		{

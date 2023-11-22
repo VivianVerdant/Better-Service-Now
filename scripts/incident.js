@@ -89,9 +89,10 @@ async function create_notes () {
     }
     
     const notes_html = `
-        <textarea id="custom_notes_text" style="min-width: calc(100% - 32px - var(--now-global-space--md,10px)); margin-right: var(--now-global-space--md,10px);" class="personalNotesText form-control hidden">${company_object[company_id].notes}</textarea>
+        <div id="toggle_notes_lock" class="btn btn-default btn-ref" style="float: right"><span id="toggle_notes_img" class="icon icon-locked"></span></div>
+        <textarea id="custom_notes_text" style="min-width: calc(100% - 32px - var(--now-global-space--md,10px)); max-width: calc(100% - 32px - var(--now-global-space--md,10px)); margin-right: var(--now-global-space--md,10px);" class="personalNotesText form-control hidden">${company_object[company_id].notes}</textarea>
         <div id="custom_notes_div"></div>
-        <div id="toggle_notes_lock" class="btn btn-default btn-ref"><span id="toggle_notes_img" class="icon icon-locked"></span></div>
+        
     `;
 
     const parent_node = document.querySelector("body > div > form > span.tabs2_section.tabs2_section_0.tabs2_section0 > span > div.section-content.with-overflow > div:nth-child(3)");
@@ -196,7 +197,7 @@ function inc_number_to_clipboard(event) {
 // add a button to the header to copy INC number to clipboard
 function add_header_inc_button() {
     const btn = document.createElement("button");
-    btn.classList.add("inc_copy_button");
+    btn.classList.add("inc_copy_button", "btn", "btn-default");
     const header = document.querySelector("nav.navbar.navbar-default.section_zero > div.container-fluid");
     header.appendChild(btn);
     header.insertBefore(btn, btn.previousSibling);
