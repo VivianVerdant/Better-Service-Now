@@ -1,28 +1,20 @@
-/*
-function replace_worknotes(node) {
-    console.log(node);
-
-    const editor = CodeMirror.fromTextArea(
-        node[0],
-        {
-            mode: "text",
-            lineNumbers: false,
-            gutter: false,
-            lineWrapping: true,
-            smartIndent: false,
-            keyMap: "sublime",
-            theme: "lesser-dark",
-        }
-    );
-    editor.save();
-}
-
-watchAwaitSelector("[id='activity-stream-textarea']", replace_worknotes);
-*/
-
 const custom_css = true;
 
 const form_variables = {};
+
+var options;
+chrome.storage.sync.get().then((options) => {
+    if (options.alt_layout_enabled) {
+        //loadcssfile("css\incident_alt_layout.css")
+    }
+});
+
+function loadcssfile(filename){
+        var fileref=document.createElement("link")
+        fileref.setAttribute("rel", "stylesheet")
+        fileref.setAttribute("type", "text/css")
+        fileref.setAttribute("href", filename)
+}
 
 const getValue = (prop) => {
     const id = "incident." + prop;
@@ -71,38 +63,53 @@ const get_form_variables = () => {
 }
 
 async function create_notes () {
-    console.log("storage: ", chrome.storage.sync);
     const company_id = form_variables.company_id;
-    let company_object = await chrome.storage.sync.get(company_id);
+    let settings_object = await chrome.storage.sync.get(["saved_notes"]);
+    settings_object = settings_object["saved_notes"];
+    console.log(settings_object);
+    let company_object;
+    if (settings_object.hasOwnProperty(company_id)) {
+        console.log("Loaded saved");
+        company_object = settings_object[company_id];
+    } else {
+        company_object = {name: form_variables.company_name, notes: (form_variables.company_name + " notes")};
+        console.log("Created new");
+    }
+    console.log(company_object);
+    save_notes(company_object);
     
     function save_notes(obj) {
-        const new_obj = {};
-        new_obj[form_variables.company_id] = obj;
-        chrome.storage.sync.set(new_obj);
+        chrome.storage.sync.get(["saved_notes"]).then((settings_object) => {
+            settings_object = settings_object["saved_notes"];
+            settings_object[company_id] = obj;
+            chrome.storage.sync.set({saved_notes: settings_object});
+            console.log("saved: ", saved);
+        });
     }
     
     // check if already exist
+    /*
     if (Object.entries(company_object).length === 0){
         console.log("no existing objecy found, creating blank");
         save_notes({name: form_variables.company_name, notes: (form_variables.company_name + " notes")});
-        company_object = await chrome.storage.sync.get(company_id);
-    }
+        company_object = await chrome.storage.sync.get(["saved_notes"])[company_id]
+    }*/
     
     const notes_html = `
         <div id="toggle_notes_lock" class="btn btn-default btn-ref" style="float: right"><span id="toggle_notes_img" class="icon icon-locked"></span></div>
-        <textarea id="custom_notes_text" style="min-width: calc(100% - 32px - var(--now-global-space--md,10px)); max-width: calc(100% - 32px - var(--now-global-space--md,10px)); margin-right: var(--now-global-space--md,10px);" class="personalNotesText form-control hidden">${company_object[company_id].notes}</textarea>
+        <textarea id="custom_notes_text" style="min-width: calc(100% - 32px - var(--now-global-space--md,10px)); max-width: calc(100% - 32px - var(--now-global-space--md,10px)); margin-right: var(--now-global-space--md,10px);" class="personalNotesText form-control hidden">${company_object.notes}</textarea>
         <div id="custom_notes_div"></div>
         
     `;
 
-    const parent_node = document.querySelector("body > div > form > span.tabs2_section.tabs2_section_0.tabs2_section0 > span > div.section-content.with-overflow > div:nth-child(3)");
+    const parent_node = document.getElementById("element.incident.description");
     const notes_node = document.createElement("div");
     notes_node.id = "custom_notes";
     notes_node.classList.add("personalNotes", "notification-info", "notification");
     notes_node.style = "padding-inline-end: var(--now-global-space--md,10px);";
     notes_node.innerHTML = notes_html;
     parent_node.appendChild(notes_node);
-    document.getElementById("custom_notes_div").innerHTML = company_object[company_id].notes;
+    document.getElementById("custom_notes_div").innerHTML = company_object.notes;
 
     // save to storage and update display div every time lock button is pressed
     document.getElementById("toggle_notes_lock").onclick = (e) => {
@@ -143,6 +150,24 @@ awaitSelector("#resolve_incident").then(
 
 // Make the form fields on the left column "sticky" so that they don't scroll off the page
 if (custom_css) {
+    awaitSelector("head").then(
+        (node) => {
+            let path = chrome.runtime.getURL('css/incident_alt_layout.css');
+            console.log(node);
+            let csselem = document.createElement('style');
+			document.head.appendChild(csselem);
+			console.log(csselem);
+            csselem.innerHTML = "text";
+            /*
+            fetch(path).then(function(response) {
+                response.text().then(function(text) {
+                    csselem.innerHTML = text;
+                });
+            });*/
+        }
+    );
+    
+   //chrome.scripting.insertCSS({target: {tabId: tab.id}, files:['css/incident_alt_layout.css']});
     awaitSelector(".section_header_content_no_scroll.touch_scroll.overflow_x_hidden-hotfix").then(
         (nodes) => {
             nodes[0].addEventListener("scroll", async (e) => {

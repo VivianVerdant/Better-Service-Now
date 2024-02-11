@@ -1,3 +1,11 @@
+/* Custom Company Notes */
+#custom_notes {
+	width: 100%;
+	display: flex;
+	float: left;
+	flex-wrap: nowrap;
+	flex-flow: row-reverse;
+}
 /* Notifications */
 
 #close-messages-btn {
@@ -86,3 +94,4 @@ a:has([alt="Open in new window - any subsequent action in that window (Update, S
 .navbar-header:has([title="Back"]) {
     display: none !important;
 }
+

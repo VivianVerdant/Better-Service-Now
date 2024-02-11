@@ -25,10 +25,85 @@
 			href="../images/icon-16.png"
 			sizes="96x96"
 		/>
-		<script src="../bootstrap/bootstrap.min.js"></script>
+		<script src="../bootstrap/bootstrap.bundle.min.js"></script>
 		<script src="options.js" defer></script>
+		<style>
+			row {
+				margin: 3rem;
+			}
+		</style>
 	</head>
 	<body class="pt-3 pb-5" data-color-theme="dark">
+		<!-- Vertically centered modal -->
+		<div class="modal fade" tabindex="-1" id="confirm-delete">
+			<div class="modal-dialog modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Confirm Deletion</h5>
+						<button
+							type="button"
+							class="btn-close"
+							data-bs-dismiss="modal"
+							aria-label="Close"
+						></button>
+					</div>
+					<div class="modal-body">
+						<p>
+							Are you sure you want to delete all settings and
+							custom content?
+						</p>
+					</div>
+					<div class="modal-footer">
+						<button
+							type="button"
+							class="btn btn-primary"
+							data-bs-dismiss="modal"
+						>
+							Cancel
+						</button>
+						<button
+							id="confirm-delete"
+							type="button"
+							class="btn btn-danger"
+						>
+							Yes Delete
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Vertically centered modal -->
+		<div class="modal fade" tabindex="-1" id="invalid-json">
+			<div class="modal-dialog modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Invalid JSON</h5>
+						<button
+							type="button"
+							class="btn-close"
+							data-bs-dismiss="modal"
+							aria-label="Close"
+						></button>
+					</div>
+					<div class="modal-body">
+						<p>
+							The text entered cannot be parsed, or is invalid JSON.<br/>
+							<a href="https://www.tutorialspoint.com/json/json_quick_guide.htm">https://www.tutorialspoint.com/json/json_quick_guide.htm</a>
+						</p>
+					</div>
+					<div class="modal-footer">
+						<button
+							id="toggle-invalid-json"
+							type="button"
+							class="btn btn-primary"
+							data-bs-dismiss="modal"
+						>
+							Ok
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
 		<div class="container-fluid">
 			<div class="row">
 				<nav class="col-md-3 col-lg-2 sidebar">
@@ -44,46 +119,8 @@
 									class="nav-link text-light rounded-sm"
 									href="#general-options"
 								>
-									<span
-										class="menu-item"
-									>
+									<span class="menu-item">
 										General Options
-									</span>
-								</a>
-							</li>
-							<li class="nav-item">
-								<a
-									class="nav-link text-light rounded-sm"
-									href="#theme-options"
-								>
-									<span
-										class="menu-item"
-									>
-										Theme Options
-									</span>
-								</a>
-							</li>
-							<li class="nav-item">
-								<a
-									class="nav-link text-light rounded-sm"
-									href="#custom-notes"
-								>
-									<span
-										class="menu-item"
-									>
-										Custom Notes
-									</span>
-								</a>
-							</li>
-							<li class="nav-item">
-								<a
-									class="nav-link text-light rounded-sm"
-									href="#about"
-								>
-									<span
-										class="menu-item"
-									>
-										About
 									</span>
 								</a>
 							</li>
@@ -102,597 +139,119 @@
 					<div class="content">
 						<!-- General Settings -->
 						<div class="tab" id="tab-general-options">
-							<h2
-								class="pb-3 mt-0"
-							>General Options</h2>
+							<h2 class="pb-3 mt-0">General Options</h2>
 
-							<!-- Main Options -->
+							<!-- Alt Layout -->
 							<div class="card my-4 shadow">
 								<div class="card-header h6 rounded-0">
-									<span>Title?</span>
+									<span>Enable Alternate Layout</span>
+								</div>
+
+								<form class="card-body">
+									<div class="form-group row mt-3">
+										<label class="ml-3 col-3"
+											>Enabled</label
+										>
+										<div class="ml-3 col-9">
+											<div
+												class="custom-control custom-checkbox custom-control-inline"
+											>
+												<input
+													name="alt-layout"
+													id="alt-layout"
+													type="checkbox"
+													class="custom-control-input"
+													style="transform: scale(2)"
+												/>
+												<label
+													for="alt-layout"
+													class="custom-control-label"
+												></label>
+											</div>
+										</div>
+									</div>
+									<div class="form-group row mt-3">
+										<label
+											class="col-3 col-form-label"
+											for="horizontal-split"
+											>Horizontal Split</label
+										>
+										<div class="col-9">
+											<div class="input-group">
+												<input
+													id="horizontal-split"
+													name="horizontal-split"
+													placeholder="39"
+													type="text"
+													aria-describedby="horizontal-splitHelpBlock"
+													required="required"
+													class="form-control"
+													style="max-width: 100px"
+												/>
+												<div class="input-group-append">
+													<div
+														class="input-group-text"
+													>
+														%
+													</div>
+												</div>
+											</div>
+											<span
+												id="horizontal-splitHelpBlock"
+												class="form-text text-muted"
+												>Where to horizontally split the
+												data columns from the
+												description and work
+												notes.</span
+											>
+										</div>
+									</div>
+								</form>
+							</div>
+							<!-- Saved Company Notes -->
+							<div class="card my-4 shadow">
+								<div class="card-header h6 rounded-0">
+									<span>Saved Company Notes</span>
 								</div>
 								<div class="card-body">
-									<!-- Dropdown -->
-									<div class="form-group col-sm-3 pb-2">
-										<label
-											for="colorTheme"
-											class="form-label"
-										>Color Theme</label>
-										<select
-											class="form-select form-select-sm col-md-3 col-lg-2"
-											id="colorTheme"
-										>
-											<option
-												value="system"
-											>System</option>
-											<option
-												value="dark"
-											>Dark</option>
-											<option
-												value="light"
-											>Light</option>
-										</select>
-									</div>
-
 									<!-- Checkbox -->
 									<div class="form-group">
 										<div class="form-check">
-											<input
-												class="form-check-input"
-												type="checkbox"
-												name="showLoginFormIcon"
-												id="usernameIconsCheckBox"
-												value="true"
-											/>
 											<label
 												class="form-check-label"
 												for="usernameIconsCheckBox"
-											>Label</label>
-											<div
-												id="passwordHelpBlock"
-												class="form-text"
-											>Help text</div>
+												>Label</label
+											>
+											<textarea
+												id="notes-textarea"
+												class="mt-3 form-control"
+												aria-label="With textarea"
+												wrap="off"
+												spellcheck="false"
+											></textarea>
 										</div>
 									</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- Theme Options -->
-						<div class="tab d-none" id="tab-theme-options">
-							<h2
-								class="pb-3 mt-0"
-							>Theme Options</h2>
-
-							<div class="card my-4 shadow">
-								<div class="card-body">
-									<div class="table-responsive">
-										<table
-											class="table table-sm table-striped table-bordered"
-										>
-											<caption
-												data-i18n="optionsConnectedDatabasesText"
-											></caption>
-											<thead>
-												<tr>
-													<th scope="col">
-														<span
-															data-i18n="optionsDatabaseIdentifier"
-														></span>
-													</th>
-													<th scope="col">
-														<span
-															data-i18n="optionsDatabaseKey"
-														></span>
-													</th>
-													<th scope="col">
-														<span
-															data-i18n="optionsDatabaseLastUsed"
-														></span>
-													</th>
-													<th scope="col">
-														<span
-															data-i18n="optionsDatabaseCreated"
-														></span>
-													</th>
-													<th scope="col">
-														<span
-															data-i18n="optionsDatabaseDelete"
-														></span>
-													</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr class="empty">
-													<td colspan="5">
-														<span
-															data-i18n="optionsConnectedDatabasesNotFound"
-														></span>
-													</td>
-												</tr>
-												<tr class="clone d-none">
-													<td
-														class="identifier text-nowrap"
-													></td>
-													<td
-														class="key text-nowrap"
-													></td>
-													<td
-														class="last-used text-nowrap"
-													></td>
-													<td
-														class="created text-nowrap"
-													></td>
-													<td class="text-nowrap">
-														<button
-															class="btn btn-sm delete btn-danger"
-														>
-															<i
-																class="fa fa-remove"
-																aria-hidden="true"
-															></i>
-															<span
-																data-i18n="optionsButtonRemove"
-															></span>
-														</button>
-													</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-									<div>
-										<button
-											id="connect-button"
-											class="btn btn-sm btn-success"
-										>
-											<i
-												class="fa fa-link"
-												aria-hidden="true"
-											></i>
-											<span
-												data-i18n="optionsButtonConnect"
-											></span>
-										</button>
-									</div>
-
-									<div
-										id="dialogDeleteConnectedDatabase"
-										class="modal fade"
-										tabindex="-1"
-										role="dialog"
-									>
-										<div class="modal-dialog">
-											<div class="modal-content">
-												<div class="modal-header">
-													<h5
-														class="modal-title"
-														data-i18n="optionsDatabasesRemoveIdentifier"
-													></h5>
-													<button
-														type="button"
-														class="btn-close"
-														data-bs-dismiss="modal"
-														aria-label="Close"
-													></button>
-												</div>
-												<div class="modal-body">
-													<p>
-														<span
-															data-i18n="optionsDatabasesRemoveIdentifierConfirmFirst"
-															data-i18n-placeholder="<strong></strong>"
-														></span>
-													</p>
-													<p
-														class="help-block"
-														data-i18n="optionsDatabasesRemoveIdentifierConfirmSecond"
-													></p>
-												</div>
-												<div class="modal-footer">
-													<button
-														class="btn btn-sm btn-secondary"
-														data-bs-dismiss="modal"
-														aria-hidden="true"
-													>
-														<i
-															class="fa fa-remove"
-															aria-hidden="true"
-														></i>
-														<span
-															data-i18n="optionsButtonCancel"
-														></span>
-													</button>
-													<button
-														class="btn btn-sm yes btn-success"
-													>
-														<i
-															class="fa fa-check"
-															aria-hidden="true"
-														></i>
-														<span
-															data-i18n="optionsButtonRemoveNow"
-														></span>
-													</button>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- Custom login fields -->
-						<div class="tab d-none" id="tab-custom-notes">
-							<h2
-								class="pb-3 mt-0"
-								data-i18n="optionsCustomFieldsTab"
-							></h2>
-
-							<div class="card my-4 shadow">
-								<div class="card-body">
-									<p>
-										<span
-											data-i18n="optionsCustomFieldsTabHelpTextFirst"
-										></span>
-										<br />
-										<span
-											data-i18n="optionsCustomFieldsTabHelpTextSecond"
-										></span>
-										<em>
-											<span
-												data-i18n="popupChooseCredentialsText"
-											></span>
-										</em>
-										.
-									</p>
-									<div class="table-responsive">
-										<table
-											class="table table-sm table-striped table-bordered"
-										>
-											<caption
-												data-i18n="optionsCustomFieldsTableCaption"
-											></caption>
-											<thead>
-												<tr>
-													<th scope="col">
-														<span
-															data-i18n="optionsColumnPageURL"
-														></span>
-													</th>
-													<th scope="col">
-														<span
-															data-i18n="optionsColumnDelete"
-														></span>
-													</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr class="empty">
-													<td colspan="2">
-														<span
-															data-i18n="optionsCustomFieldsNotFound"
-														></span>
-													</td>
-												</tr>
-												<tr class="clone d-none">
-													<td></td>
-													<td class="text-nowrap">
-														<button
-															class="btn btn-sm delete btn-danger btn"
-														>
-															<i
-																class="fa fa-remove"
-																aria-hidden="true"
-															></i>
-															<span
-																data-i18n="optionsButtonRemove"
-															></span>
-														</button>
-													</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-
-									<div
-										id="dialogDeleteCustomLoginFields"
-										class="modal fade"
-										tabindex="-1"
-										role="dialog"
-									>
-										<div
-											class="modal-dialog"
-											role="document"
-										>
-											<div class="modal-content">
-												<div class="modal-header">
-													<h5
-														data-i18n="optionsCustomFieldsRemove"
-													></h5>
-													<button
-														type="button"
-														class="btn-close"
-														data-bs-dismiss="modal"
-														aria-label="Close"
-													></button>
-												</div>
-												<div class="modal-body">
-													<p>
-														<span
-															data-i18n="optionsCustomFieldsConfirmation"
-															data-i18n-placeholder="<strong></strong>"
-														></span>
-													</p>
-													<p
-														class="help-block"
-														data-i18n="optionsCustomFieldsConfirmationHelpText"
-													></p>
-												</div>
-												<div class="modal-footer">
-													<button
-														class="btn btn-sm btn-secondary"
-														data-bs-dismiss="modal"
-														aria-hidden="true"
-													>
-														<i
-															class="fa fa-remove"
-															aria-hidden="true"
-														></i>
-														<span
-															data-i18n="optionsButtonCancel"
-														></span>
-													</button>
-													<button
-														class="btn btn-sm yes btn-success"
-													>
-														<i
-															class="fa fa-check"
-															aria-hidden="true"
-														></i>
-														<span
-															data-i18n="optionsButtonRemoveNow"
-														></span>
-													</button>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- About -->
-						<div class="tab d-none" id="tab-about">
-							<h2
-								class="pb-3 mt-0"
-								data-i18n="optionsAboutTab"
-							></h2>
-
-							<div class="card my-4 shadow">
-								<div class="card-header h6 rounded-0">
-									<i
-										class="fa fa-desktop"
-										aria-hidden="true"
-									></i>
-									<span
-										data-i18n="optionsExtensionTitle"
-									></span>
-								</div>
-								<div class="card-body">
-									<p>
-										<span
-											data-i18n="optionsAboutExtensionVersion"
-											data-i18n-placeholder="<span class='versionCIP'></span>"
-										></span>
-										<br />
-										<span
-											data-i18n="optionsAboutKeePassXCVersion"
-											data-i18n-placeholder="<span class='versionKPH'></span>"
-										></span>
-									</p>
-									<hr class="mt-0" />
-									<p>
-										<a
-											target="_blank"
-											href="https://chrome.google.com/webstore/detail/keepassxc-browser/oboonakemofpalcgghocfoadofidjkkk"
-											data-i18n="[title]openNewTab"
-										>
-											<span
-												data-i18n="optionsAboutChrome"
-											></span>
-										</a>
-										<br />
-										<a
-											target="_blank"
-											href="https://addons.mozilla.org/en-US/firefox/addon/keepassxc-browser/"
-											data-i18n="[title]openNewTab"
-										>
-											<span
-												data-i18n="optionsAboutMozilla"
-											></span>
-										</a>
-										<br />
-										<a
-											target="_blank"
-											href="https://microsoftedge.microsoft.com/addons/detail/keepassxcbrowser/pdffhmdngciaglkoonimfcmckehcpafo"
-											data-i18n="[title]openNewTab"
-										>
-											<span
-												data-i18n="optionsAboutEdge"
-											></span>
-										</a>
-										<br />
-										<a
-											target="_blank"
-											href="https://github.com/keepassxreboot/keepassxc-browser"
-											data-i18n="[title]openNewTab"
-										>
-											<span
-												data-i18n="optionsAboutGitHub"
-											></span>
-										</a>
-									</p>
-									<hr class="mt-0" />
-									<p>
-										<span
-											data-i18n="optionsAboutContributors"
-										></span>
-										:
-										<br />
-										<a
-											target="_blank"
-											href="https://github.com/varjolintu"
-											data-i18n="[title]openNewTab"
-										>
-											Sami Vänttinen
-										</a>
-										<br />
-										<a
-											target="_blank"
-											href="https://github.com/smorks"
-											data-i18n="[title]openNewTab"
-										>
-											Andy Brandt
-										</a>
-										<br />
-										<a
-											target="_blank"
-											href="https://github.com/pfn"
-											data-i18n="[title]openNewTab"
-										>
-											Perry Nguyen
-										</a>
-										<br />
-										<a
-											target="_blank"
-											href="http://lukas-schulze.de"
-											data-i18n="[title]openNewTab"
-										>
-											Lukas Schulze
-										</a>
-										<br />
-										<a
-											target="_blank"
-											href="https://github.com/stefansundin"
-											data-i18n="[title]openNewTab"
-										>
-											Stefan Sundin
-										</a>
-										<br />
-										<a
-											target="_blank"
-											href="https://github.com/dynobo"
-											data-i18n="[title]openNewTab"
-										>
-											dynobo
-										</a>
-									</p>
-
-									<details>
-										<summary>
-											<span
-												data-i18n="optionsAboutSupporters"
-											></span>
-										</summary>
-										<pre>
-                      Patreon Key supporters:
-
-                      Bart Libert
-                      David Walluscheck
-                      yuriyk
-                    </pre
-										>
-									</details>
-								</div>
-							</div>
-
-							<div class="card my-4 shadow">
-								<div class="card-header h6 rounded-0">
-									<i class="fa fa-bug" aria-hidden="true"></i>
-									<span
-										data-i18n="optionsAboutReportBugs"
-									></span>
-								</div>
-								<div class="card-body">
-									<p>
-										<a
-											target="_blank"
-											href="https://github.com/keepassxreboot/keepassxc-browser/issues/new"
-										>
-											<span
-												data-i18n="optionsAboutCreateNewIssue"
-											></span>
-										</a>
-										<br />
-										<span
-											data-i18n="optionsAboutDebugInfo"
-										></span>
-										:
-									</p>
-									<p id="versionInfo" class="float-left">
-										KeePassXC -
-										<span class="kpxcVersion"></span>
-										<br />
-										KeePassXC-Browser -
-										<span class="kpxcbrVersion"></span>
-										<br />
-										Operating system:
-										<span class="kpxcbrOS"></span>
-										<br />
-										Browser:
-										<span class="kpxcbrBrowser"></span>
-									</p>
-									<button
-										id="copyVersionToClipboard"
-										class="btn btn btn-sm btn-primary ml-3"
-									>
-										<i class="fa fa-clipboard"></i>
-									</button>
-								</div>
-							</div>
-
-							<div class="card my-4 shadow">
-								<div class="card-header h6 rounded-0">
-									<i
-										class="fa fa-file-code-o"
-										aria-hidden="true"
-									></i>
-									<span
-										data-i18n="optionsAboutLicenses"
-									></span>
-								</div>
-								<div class="card-body">
-									<details>
-										<summary>Bootstrap</summary>
-										<pre>
-                      The MIT License (MIT)
-
-                      Copyright (c) 2011-2022 Twitter, Inc.
-                      Copyright (c) 2011-2022 The Bootstrap Authors
-
-                      Permission is hereby granted, free of charge, to any person obtaining a copy
-                      of this software and associated documentation files (the "Software"), to deal
-                      in the Software without restriction, including without limitation the rights
-                      to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-                      copies of the Software, and to permit persons to whom the Software is
-                      furnished to do so, subject to the following conditions:
-
-                      The above copyright notice and this permission notice shall be included in
-                      all copies or substantial portions of the Software.
-
-                      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-                      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-                      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-                      AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-                      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-                      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-                      THE SOFTWARE.
-                    </pre
-										>
-									</details>
 								</div>
 							</div>
 						</div>
 					</div>
+					<button
+						id="save-button"
+						type="button"
+						class="mt-3 btn btn-primary"
+					>
+						Save Settings
+					</button>
+					<button
+						id="delete-button"
+						type="button"
+						style="float: right"
+						class="mt-3 btn btn-warning"
+						data-bs-toggle="modal"
+						data-bs-target="#confirm-delete"
+					>
+						Delete All Data
+					</button>
 				</main>
 			</div>
 		</div>

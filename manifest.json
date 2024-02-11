@@ -33,7 +33,7 @@
 		{
 			"matches": ["https://*.service-now.com/incident.do*"],
 			"run_at": "document_start",
-			"css": ["css/incident.css","css/incident_alt_layout.css"],
+			"css": ["css/incident.css"],
 			"js": ["scripts/incident.js"]
 		},
 		{
@@ -57,10 +57,5 @@
 			"css": ["css/better_requests.css"]
 		}
 	],
-	"web_accessible_resources": [
-		{
-			"resources": ["codemirror/*", "scripts/*"],
-			"matches": ["https://*.service-now.com/*"]
-		}
-	]
+	"web_accessible_resources": ["codemirror/*", "scripts/*","css/*"]
 }

@@ -1,3 +1,9 @@
+:root {
+	--horizontal-split: 38%;
+	--horizontal-split-remainder: 62%;
+}
+
+
 .process-breadcrumb,
 [id="label.incident.short_description"],
 [id="label.incident.description"] {
@@ -6,6 +12,10 @@
 
 div.tabs2_strip:has(span) {
     padding: 0;
+}
+
+.context_menu {
+	position: fixed !important;
 }
 
 span.tabs2_tab {
@@ -58,14 +68,21 @@ div.section-content:has(div),*/
 	flex-flow: nowrap !important;
 }
 
-.section_header_content_no_scroll.touch_scroll.overflow_x_hidden-hotfix > div:not(.ac_dropdown) {
-	padding-left: 38%;
-	left: unset !important;
+.popover.glide-popup {
+	margin-left: var(--horizontal-split, 38%);
+	top: 41px !important;
+	position: fixed;
+	max-height: calc(100% - 41px);
+	overflow-x: auto;
+	left: 0 !important;
+	right: 0 !important;
+	margin-block-start: 0 !important;
+
 }
 
 [id="incident.do"] {
 	display: grid;
-	grid-template-columns: 38% 62% 0%;
+	grid-template-columns: var(--horizontal-split, 38%) 62% 0%;
 	grid-template-rows: auto 32px;
 	grid-auto-flow: column;
 	max-width: 1390px;
@@ -73,7 +90,7 @@ div.section-content:has(div),*/
 
 [id="incident.do"] > span.tabs2_section.tabs2_section_0.tabs2_section0 > span > div.section-content.with-overflow {
 	display: grid;
-	grid-template-columns: 38% 62%;
+	grid-template-columns: var(--horizontal-split, 38%) 62%;
 	grid-template-rows: auto auto;
 	width: 100%;
 	max-width: 1390px;
@@ -125,7 +142,6 @@ div.section-content:has(div),*/
 
 .form_body>.tabs2_section.tab_section {
     grid-area: 3 / 2 / span 1 / span 2;
-    padding-left: 38vw;
     width: -webkit-fill-available;
     padding: 0;
 }
@@ -419,5 +435,11 @@ div[id="cxs_related_search_container"] {
 
 [aria-label="Closure Information form section"],
 [aria-label="Related Records form section"] {
+	width: 100%;
+}
+
+#tabs2_spacer {
+	padding-left: 38%;
+	margin: 0;
 	width: 100%;
 }
